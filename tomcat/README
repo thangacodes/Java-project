@@ -1,6 +1,9 @@
 Custom Application Deployment on Tomcat 9.0 via Ansible:
 ========================================================
+To check galaxy version on linux machine,
+# ansible-galaxy --version
 
+# To create a custom role by an user in offline mode,
 # ansible-galaxy init role tomcat --offline
 
 Requirements
