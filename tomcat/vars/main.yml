@@ -1,8 +1,8 @@
 ---
 # vars file for tomcat
-TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz
+TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/{{ TOMCAT_FILE }}.tar.gz
 TOMCAT_DEST: /tmp/  
-TOMCAT_FILE: apache-tomcat-9.0.89.tar.gz
-WAR_DES: /tmp/apache-tomcat-9.0.89/webapps/
+TOMCAT_FILE: apache-tomcat-9.0.89
+WAR_DES: /tmp/{{ TOMCAT_FILE }}/webapps/
 ARTIFACT_FILE: lms.war
 JSP_FILE: index.jsp
