@@ -1,0 +1,7 @@
+---
+- name: "Invoking Tomcat Role in this playbook"
+  hosts: localhost
+  gather_facts: true
+  become: yes
+  roles:
+    - { role: tomcat }
