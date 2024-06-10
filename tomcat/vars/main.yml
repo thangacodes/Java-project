@@ -5,4 +5,4 @@ TOMCAT_DEST: /tmp/
 TOMCAT_FILE: apache-tomcat-9.0.89.tar.gz
 WAR_DES: /tmp/apache-tomcat-9.0.89/webapps/
 ARTIFACT_FILE: lms.war
-
+JSP_FILE: index.jsp
