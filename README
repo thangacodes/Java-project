@@ -1,0 +1,31 @@
+It is a project where I document the step-by-step process of making a dockerized image for java applications.
+
+Below are useful Java compile commands:
+
+a) Create a java file with main class like in below format,
+
+# vi HelloWorld.java
+
+public class HelloWorld {
+    public static void main(String args[]){
+        System.out.println("Hello World!");
+    }
+}
+
+b) Generate class file using javac command
+
+# javac HelloWorld.java
+
+c) Create MANIFEST.MF file contains like this,
+Manifest-Version: 1.0
+Created-By: Me
+Main-Class: HelloWorld
+
+d) jar cfm HelloWorld.jar MANIFEST.MF HelloWorld.class
+
+e) Check if everything works correctly, type
+
+# java -jar HelloWorld.jar
+
+
+
