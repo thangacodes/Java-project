@@ -1,7 +1,7 @@
-Role Name
-=========
+Custom Application Deployment on Tomcat 9.0 via Ansible:
+========================================================
 
-A brief description of the role goes here.
+# ansible-galaxy init role tomcat --offline
 
 Requirements
 ------------
@@ -23,9 +23,13 @@ Example Playbook
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+---
+- name: "Invoking Tomcat Role in this playbook"
+  hosts: localhost
+  gather_facts: true
+  become: yes
+  roles:
+    - role: tomcat
 
 License
 -------
