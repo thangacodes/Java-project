@@ -1,0 +1,28 @@
+## How to run/compile Calculator program developed in Java
+
+1) First compile the calci.java file using the command below,
+# javac calci.java
+# ls -ltr
+calci.class --> file should be exist
+
+2) Create Dockerfile 
+# touch Dockerfile
+FROM: This specifies the base image to use for the Docker image.
+RUN: This runs a command inside the Docker container during the build process.
+WORKDIR: This sets the working directory for subsequent commands in the Dockerfile.
+COPY: This copies files from the local file system to the Docker Image.
+CMD: This specifies the command to run when the Docker container starts.
+
+3) The following Docker command needs to be executed inorder to build/run the container,
+# docker build -t calci .
+# docker run -it --name calciapp -d calci
+# docker ps -a
+# docker exec -it calciapp java calci   // It runs and shows the following things,
+Choose an operator: +, -, *, or /
+*
+Enter first number
+20
+Enter second number
+30
+20.0 * 30.0 = 600.0
+
