@@ -1,0 +1,43 @@
+---
+# tasks file for tomcat
+- name: "Task begins to download tar.gz file"
+  ansible.builtin.get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: "{{ TOMCAT_DEST }}"
+- name: "Extracting the tar.gz file in {{ TOMCAT_DEST }}"
+  unarchive:
+    src: "{{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}"
+    dest: "{{ TOMCAT_DEST }}"
+    remote_src: yes
+
+- name: "Copying .war file to webapps folder before start service"
+  copy:
+    src: "{{ WAR_LOC }}"
+    dest: "{{ WAR_DES }}"
+
+- name: "Starting tomcat services"
+  shell: sh {{ TOMCAT_DEST }}/apache-tomcat-9.0.89/bin/startup.sh
+
+- name: "Sleep for 20 seconds to up SERVICES.."
+  ansible.builtin.pause:
+    seconds: 20
+
+- name: "Blue/Green Deployment kicks in.."
+  shell: sh {{ TOMCAT_DEST }}/apache-tomcat-9.0.89/bin/shutdown.sh
+
+- name: "Sleep for 20 seconds to calm down service stopping.."
+  ansible.builtin.pause:
+    seconds: 20
+
+- name: "COPY NEW index.jsp file to webapps folder before start service"
+  copy:
+    src: files/index.jsp
+    dest: /tmp/apache-tomcat-9.0.89/webapps/lms/index.jsp
+
+- name: "Starting tomcat services"
+  shell: sh {{ TOMCAT_DEST }}/apache-tomcat-9.0.89/bin/startup.sh
+
+
+
+
+
