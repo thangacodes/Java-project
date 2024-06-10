@@ -2,7 +2,7 @@ It is a project where I document the step-by-step process of making a dockerized
 
 Below are useful Java compile commands:
 
-a) Create a java file with main class like in below format,
+a) This Java program defines a simple class named HelloWorld that prints "Hello World!" to the console when executed
 
 # vi HelloWorld.java
 
@@ -12,20 +12,27 @@ public class HelloWorld {
     }
 }
 
-b) Generate class file using javac command
-
+b) Compile Your Java Class
+If you haven't already compiled your HelloWorld.java to HelloWorld.class, you can do so using,
 # javac HelloWorld.java
+# This will create the HelloWorld.class file in the same directory.
 
 c) Create MANIFEST.MF file contains like this,
 Manifest-Version: 1.0
 Created-By: Me
 Main-Class: HelloWorld
 
-d) jar cfm HelloWorld.jar MANIFEST.MF HelloWorld.class
+d) Create the JAR File
+# jar cfm HelloWorld.jar MANIFEST.MF HelloWorld.class
+c – Create a new archive.
+f – Specify the archive file name.
+m – Include the manifest file
 
 e) Check if everything works correctly, type
 
 # java -jar HelloWorld.jar
+Hello World!
+
 
 
 
