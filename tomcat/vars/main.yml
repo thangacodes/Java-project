@@ -4,5 +4,5 @@ TOMCAT_URL: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9
 TOMCAT_DEST: /tmp/  
 TOMCAT_FILE: apache-tomcat-9.0.89.tar.gz
 WAR_DES: /tmp/apache-tomcat-9.0.89/webapps/
-WAR_LOC: /home/ubuntu/lms.war
+ARTIFACT_FILE: lms.war
 

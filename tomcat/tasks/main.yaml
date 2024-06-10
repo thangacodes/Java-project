@@ -1,43 +1,38 @@
 ---
 # tasks file for tomcat
-- name: "TASK begins to download tar.gz file from Web"
+- name: "DOWNLOAD {{ TOMCAT_FILE }} file from WEB"
   ansible.builtin.get_url:
     url: "{{ TOMCAT_URL }}"
     dest: "{{ TOMCAT_DEST }}"
-- name: "EXTRACT tar.gz file in {{ TOMCAT_DEST }} Location"
+- name: "EXTRACT {{ TOMCAT_FILE }} file in {{ TOMCAT_DEST }} Location"
   unarchive:
     src: "{{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}"
     dest: "{{ TOMCAT_DEST }}"
     remote_src: yes
 
-- name: "COPY lms.war file to webapps folder before start service"
+- name: "COPY {{ ARTIFACT_FILE }} file to webapps folder before SERVICE STARTS"
   copy:
-    src: files/lms.war
+    src: files/{{ ARTIFACT_FILE }}
     dest: "{{ WAR_DES }}"
 
-- name: "START tomcat services"
+- name: "START TOMCAT SERVICES"
   shell: sh {{ TOMCAT_DEST }}/apache-tomcat-9.0.89/bin/startup.sh
 
-- name: "SLEEP for 20 seconds to up SERVICES.."
+- name: "SLEEP for 20 seconds SERVICES TO BE UP FULLY"
   ansible.builtin.pause:
     seconds: 20
 
-- name: "BLUE/GREEN Deployment kicks in.."
+- name: "BLUE/GREEN DEPLOYMENT KICKS IN"
   shell: sh {{ TOMCAT_DEST }}/apache-tomcat-9.0.89/bin/shutdown.sh
 
-- name: "SLEEP for 20 seconds to calm down service stopping.."
+- name: "SLEEP for 20 seconds SERVICES TO BE DOWN FULLY"
   ansible.builtin.pause:
     seconds: 20
 
-- name: "COPY NEW index.jsp file to webapps folder before start service"
+- name: "COPY new_release {{ JSP_FILE }} file to webapps folder before START THE SERVICES"
   copy:
-    src: files/index.jsp
-    dest: /tmp/apache-tomcat-9.0.89/webapps/lms/index.jsp
+    src: files/{{ JSP_FILE }}
+    dest: /tmp/apache-tomcat-9.0.89/webapps/lms/{{ JSP_FILE }}
 
-- name: "Starting tomcat services"
+- name: "START TOMCAT SERVICES"
   shell: sh {{ TOMCAT_DEST }}/apache-tomcat-9.0.89/bin/startup.sh
-
-
-
-
-
