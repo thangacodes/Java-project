@@ -33,6 +33,12 @@ e) Check if everything works correctly, type
 # java -jar HelloWorld.jar
 Hello World!
 
+Please note, In order to copy a file from a container to the host, you can use the command
+
+# docker cp <containerId>:/file/path/within/container /host/path/target
+
+# docker 7ee:/usr/local/tomcat/SampleWebApp/index.html /home/ubuntu
+
 
 
 
