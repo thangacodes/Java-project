@@ -10,9 +10,9 @@
     dest: "{{ TOMCAT_DEST }}"
     remote_src: yes
 
-- name: "COPY lms.war file to webapps folder before start service"
+- name: "COPY {{ ARTIFACT_FILE }} file to webapps folder before start service"
   copy:
-    src: files/lms.war
+    src: files/{{ ARTIFACT_FILE }}
     dest: "{{ WAR_DES }}"
 
 - name: "START tomcat services"
