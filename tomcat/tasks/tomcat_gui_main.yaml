@@ -1,0 +1,52 @@
+---
+# tasks file for tomcat
+- name: "DOWNLOAD {{ TOMCAT_FILE }}.tar.gz file from WEB"
+  ansible.builtin.get_url:
+    url: "{{ TOMCAT_URL }}"
+    dest: "{{ TOMCAT_DEST }}"
+- name: "EXTRACT {{ TOMCAT_FILE }}.tar.gz file in {{ TOMCAT_DEST }} Location"
+  unarchive:
+    src: "{{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}.tar.gz"
+    dest: "{{ TOMCAT_DEST }}"
+    remote_src: yes
+
+- name: "START TOMCAT SERVICES"
+  shell: sh {{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}/bin/startup.sh
+
+- name: "Removing {{ TOMCAT_FILE }}.tar.gz file in {{ TOMCAT_DEST }} PATH"
+  shell: rm -rf /{{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}.tar.gz
+  register: remo_out
+- debug: msg="{{ remo_out }}"
+
+- name: "SLEEP for 20 seconds SERVICES TO BE UP FULLY"
+  ansible.builtin.pause:
+    seconds: 20
+
+- name: "SHUTDOWN TOMCAT SERVICES"
+  shell: sh {{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}/bin/shutdown.sh
+
+- name: "SLEEP for 20 seconds SERVICES TO BE DOWN FULLY"
+  ansible.builtin.pause:
+    seconds: 20
+
+- name: "Copy Config file from /tmp/host-man/"
+  template:
+    src: host-man/context.xml.j2
+    dest: "{{ TOMCAT_DEST }} {{ TOMCAT_FILE }}/webapps/host-manager/META-INF/context.xml"
+  register: jinja_out
+- debug: msg="{{ jinja_out }}"
+
+- name: "Copy config file from /tmp/manager"
+  template:
+    src: manager/context.xml.j2
+    dest: "{{ TOMCAT_DEST }} {{ TOMCAT_FILE }}/webapps/manager/META-INF/context.xml
+
+- name: "Copy tomcat-user file from /tmp/"
+  template:
+    src: tom_conf/tomcat-users.xml.j2
+    dest: "{{ TOMCAT_DEST }} {{ TOMCAT_FILE }}/conf/tomcat-users.xml"
+
+- name: "START TOMCAT SERVICES"
+  shell: sh {{ TOMCAT_DEST }}/{{ TOMCAT_FILE }}/bin/startup.sh
+  register: tom_start
+- debug: msg="{{ tom_start }}"
