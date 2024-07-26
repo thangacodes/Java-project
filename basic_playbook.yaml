@@ -1,0 +1,21 @@
+---
+- name: "Checking ping connection on localhost"
+  hosts: localhost
+  become: yes
+  vars:
+    ansible_vault: "Ansible feature that helps you encrypt confidential information without compromising security"
+    ansible_roles: "Provide a structured way to organize tasks, templates, files, and variables"
+  tasks:
+  - name: "Ansible version checking"
+    command: ansible --version
+    register: ansible_out
+  - debug: msg="{{ ansible_out }}"
+  - name: "Ping checks on localhost"
+    ping:
+    register: ping_out
+  - name: "Print the stored value using debug module"
+    debug: 
+      msg: "Ping result: {{ ping_out }}"
+  - name: "Checking variables values using debug module"
+    debug: 
+      msg: "Ansible role is to : {{ ansible_roles }} and Ansible Vault is used to : {{ ansible_vault }}"
