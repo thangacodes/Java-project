@@ -1,6 +1,6 @@
 FROM openjdk:21
 WORKDIR /APP
-COPY anvi.jar /APP/
+COPY ../jar_files/userinput.jar /APP/
 EXPOSE 8080
-# CMD ["java", "-jar", "anvi.jar"]
-CMD ["java", "-cp", "anvi.jar", "anvi"]
+# CMD ["java", "-jar", "userinput.jar"]
+CMD ["java", "-cp", "userinput.jar", "userinput"]
