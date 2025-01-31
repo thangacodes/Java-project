@@ -21,7 +21,7 @@ jobs:
     - name: Build the Docker image
       run: | 
         sudo docker build . --file ${{ env.dockerfile_path }} --tag ${{ env.image_name }}:$(date +%s)
-        docker images ls
+        docker image ls
 
     - name: Run the Docker container
       run: |
