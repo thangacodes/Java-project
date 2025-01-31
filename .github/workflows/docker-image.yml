@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Building and running a JavaApp container
 
 on:
   push:
@@ -20,18 +20,19 @@ jobs:
     
     - name: Build the Docker image
       run: |
-        sudo docker build -t ${{ env.image_name }}:$(date '+%d-%m-%Y %H:%M:%S') -f ${{ env.dockerfile_path }} .
+        IMAGE_TAG=$(date '+%Y-%m-%d_%H%M%S')  # Use a simple timestamp format
+        docker build -t ${{ env.image_name }}:$IMAGE_TAG -f ${{ env.dockerfile_path }} .
         docker image ls
 
     - name: Run the Docker container
       run: |
-        docker run -d -p 8089:8080 ${{ env.image_name }}:$(date '+%d-%m-%Y %H:%M:%S') --name ${{ env.container_name }}
+        IMAGE_TAG=$(date '+%Y-%m-%d_%H%M%S')
+        docker run -d -p 8089:8080 --name ${{ env.container_name }} ${{ env.image_name }}:$IMAGE_TAG
         sleep 5  # Wait for a few seconds for the container to spin up
 
     - name: Check the container status
       run: |
         docker ps -a
-        sleep 5
         docker stop ${{ env.container_name }}
         docker rm -f ${{ env.container_name }}
         echo "Cross-checking the container list..."
