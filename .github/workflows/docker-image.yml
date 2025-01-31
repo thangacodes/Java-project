@@ -1,0 +1,37 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  dockerfile_path: Java_files/Docker/Dockerfile
+  image_name: java_app
+  container_name: simpleapp
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build the Docker image
+      run: | 
+        sudo docker build . --file ${{ env.dockerfile_path }} --tag ${{ env.image_name }}:$(date +%s)
+        docker images ls
+
+    - name: Run the Docker container
+      run: |
+        docker run -d -p 8089:8080 ${{ env.image_name }}:$(date +%s) --name ${{ env.container_name }}
+        sleep 5  # Wait for a few seconds for the container to spin up
+
+    - name: Check the container status
+      run: |
+        docker ps -a
+        docker stop ${{ env.container_name }}
+        docker rm -f ${{ env.container_name }}
+        echo "Cross-checking the container list..."
+        docker ps -a
