@@ -19,3 +19,9 @@ Compiling and Running Java Files:
    anvi.class
 3. Run the compiled class file using:
    java anvi  //It will run the Java program in the terminal or MS-DOS.
+4. To make java archive (.jar) from the compiled class file
+5. Create MANIFEST.MF file with the content below,
+   echo -e "Manifest-Version: 1.0\nCreated-By: Thangadurai, Murugan\nMain-Class: anvi" > MANIFEST.MF
+5. jar cmf MANIFEST.MF anvi.jar anvi.class
+6. java -jar anvi.jar  (OR) 
+   java -cp anvi.jar anvi   // some reason the manifest ignored
