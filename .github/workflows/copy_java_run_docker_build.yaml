@@ -1,0 +1,44 @@
+name: build and run
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  dockerfile_path: Java_files/userinput/Dockerfile
+  image_name: userinputimage
+  container_name: userinputcontainer
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build the Docker image
+      id: build_image
+      run: |
+        # Generate image tag
+        IMAGE_TAG=$(date '+%Y-%m-%d_%H%M%S')  
+        docker build -t ${{ env.image_name }}:$IMAGE_TAG -f ${{ env.dockerfile_path }} .
+        # List images to verify build success
+        docker image ls  
+        # Set IMAGE_TAG as a GitHub Environment variable
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV  
+
+    - name: Run the Docker container
+      run: |
+        docker run -d -p 8089:8080 --name ${{ env.container_name }} ${{ env.image_name }}:$IMAGE_TAG
+        docker run -it --name ${{ env.container_name }} ${{ env.image_name }}:$IMAGE_TAG
+        sleep 5  # Wait for a few seconds for the container to spin up
+
+    - name: Check the container status
+      run: |
+        docker ps -a
+        docker stop ${{ env.container_name }}
+        docker rm -f ${{ env.container_name }}
+        echo "Cross-checking the container list..."
+        docker ps -a
