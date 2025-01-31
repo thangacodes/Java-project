@@ -1,0 +1,21 @@
+How to compile *.java files?
+
+To compile Java files locally, you'll need to have few things in locally. 
+
+1. Java Development Kit (JDK):
+   The JDK is necessary for compiling and running Java programs.
+   
+3. Set up Java Environment Variables:
+   After installing the JDK, you'll need to set up the following environment variables:
+   JAVA_HOME: Points to the directory where the JDK is installed.
+
+Compiling and Running Java Files:
+
+1. Navigate to the folder containing the Java file in your terminal (using cd command)
+2. Compile the Java file using:
+   javac ${file}.java
+   Example:
+   javac anvi.java     //If successfully runs the compilation, you will get a file
+   anvi.class
+3. Run the compiled class file using:
+   java anvi  //It will run the Java program in the terminal or MS-DOS.
