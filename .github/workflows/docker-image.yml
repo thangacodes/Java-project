@@ -19,18 +19,19 @@ jobs:
     - uses: actions/checkout@v4
     
     - name: Build the Docker image
-      run: | 
-        sudo docker build . --file ${{ env.dockerfile_path }} --tag ${{ env.image_name }}:$(date +%s)
+      run: |
+        sudo docker build -t ${{ env.image_name }}:$(date '+%d-%m-%Y %H:%M:%S') -f ${{ env.dockerfile_path }} .
         docker image ls
 
     - name: Run the Docker container
       run: |
-        docker run -d -p 8089:8080 ${{ env.image_name }}:$(date +%s) --name ${{ env.container_name }}
+        docker run -d -p 8089:8080 ${{ env.image_name }}:$(date '+%d-%m-%Y %H:%M:%S') --name ${{ env.container_name }}
         sleep 5  # Wait for a few seconds for the container to spin up
 
     - name: Check the container status
       run: |
         docker ps -a
+        sleep 5
         docker stop ${{ env.container_name }}
         docker rm -f ${{ env.container_name }}
         echo "Cross-checking the container list..."
