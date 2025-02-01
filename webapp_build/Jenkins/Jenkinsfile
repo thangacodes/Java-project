@@ -2,15 +2,25 @@ pipeline {
     agent any
     environment {
         // Set environment variables
-        TOMCAT_PATH="/Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps"
-        COPY='cp /Users/td/.jenkins/workspace/build-webapp/webapp_build/target/try-devops-1.0.war /Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps'
+        TOMCAT_PATH = "${TOMCAT_HOME}/webapps"
+        WAR_FILE = "try-devops-1.0.war"
+        MAVEN_HOME = "/opt/homebrew/Cellar/maven/3.9.9/libexec/bin"
+        TOMCAT_HOME = "/Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98"
+        WEBAPP_BUILD_PATH = "webapp_build"
+    }
+    parameters {
+        string(name: 'REPO_URL', defaultValue: 'https://github.com/thangacodes/Java-project.git', description: 'Git repository URL')
+        string(name: 'WAR_FILE_PATH', defaultValue: 'webapp_build/target/${WAR_FILE}', description: 'Path to the WAR file')
+        string(name: 'TOMCAT_STARTUP_SCRIPT', defaultValue: "${TOMCAT_HOME}/bin/startup.sh", description: 'Path to Tomcat startup script')
+        string(name: 'TOMCAT_SHUTDOWN_SCRIPT', defaultValue: "${TOMCAT_HOME}/bin/shutdown.sh", description: 'Path to Tomcat shutdown script')
+        string(name: 'TOMCAT_PORT', defaultValue: '8090', description: 'Tomcat server port for testing deployment')
     }
     stages {
         stage('Checkout') {
             steps {
                 // Checkout the code from the repository
                 sh '''
-                   git clone https://github.com/thangacodes/Java-project.git
+                   git clone ${REPO_URL}
                    ls -lrt
                    pwd
                    echo "Who is the executor of this task?:" $(whoami)
@@ -21,7 +31,7 @@ pipeline {
             steps {
                 // Changing to the directory where java code is available
                 sh '''
-                    cd webapp_build
+                    cd ${WEBAPP_BUILD_PATH}
                     ls -lrth
                    '''
             }
@@ -31,10 +41,10 @@ pipeline {
                 script {
                     // Run Maven to compile and build the WAR file
                     sh '''
-                        cd webapp_build
+                        cd ${WEBAPP_BUILD_PATH}
                         ls -lrth
                         echo "Going to perform maven compilation.."
-                        /opt/homebrew/Cellar/maven/3.9.9/libexec/bin/mvn clean package
+                        ${MAVEN_HOME}/mvn clean package
                         pwd
                         ls -lrth
                        '''
@@ -44,11 +54,11 @@ pipeline {
         stage('Deploy to Tomcat') {
             steps {
                 script {
-                    // Copy the WAR file to Tomcat's webapps directory
+                    // Copy the WAR file to Tomcat's webapps dir
                     sh """
-                    ${COPY}
+                    cp ${WAR_FILE_PATH} ${TOMCAT_PATH}
                     echo "Going to check the path.."
-                    ls -lrth /Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps
+                    ls -lrth ${TOMCAT_PATH}
                     """
                 }
             }
@@ -56,22 +66,21 @@ pipeline {
         stage('Restart Tomcat') {
             steps {
                 script {
-                    // Restart Tomcat to deploy the new WAR
                     sh """
                     echo "Going to list out the files in ${TOMCAT_PATH}"
                     ls -lrt ${TOMCAT_PATH}
                     sleep 5
-                    echo "**************"
-                    echo "Going to start Apache tomcat service"
-                    echo "**************"
-                    sh /Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/startup.sh
-                    echo "*********************************************"
+                    echo "........"
+                    echo "Going to start Apache Tomcat service"
+                    echo "........"
+                    sh ${TOMCAT_STARTUP_SCRIPT}
+                    echo "........"
                     echo "Sleeping for 200 seconds..."
                     sleep 200
-                    echo "**************"
-                    echo "Going to stop Apache tomcat service"
-                    echo "**************"
-                    sh /Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/shutdown.sh
+                    echo "........"
+                    echo "Going to stop Apache Tomcat service"
+                    echo "........"
+                    sh ${TOMCAT_SHUTDOWN_SCRIPT}
                     """
                 }
             }
@@ -79,9 +88,8 @@ pipeline {
         stage('Test Deployment') {
             steps {
                 script {
-                    // Wait for Tomcat to fully start, then test deployment
-                    sleep 120  // Wait for Tomcat to fully start
-                    sh 'curl http://localhost:8090/try-devops-1.0/'  
+                    sleep 120
+                    sh "curl http://localhost:${TOMCAT_PORT}/try-devops-1.0/"
                 }
             }
         }
