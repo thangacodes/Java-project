@@ -1,12 +1,10 @@
 pipeline {
     agent any
-
     environment {
         // Set environment variables
         TOMCAT_PATH="/Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps"
         COPY='cp /Users/${DIR}/.jenkins/workspace/build-webapp/webapp_build/target/try-devops-1.0.war /Users/${DIR}/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps'
     }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -19,7 +17,6 @@ pipeline {
                    '''
             }
         }
-
         stage('Change Directory') {
             steps {
                 // Changing to the directory where java code is available
@@ -29,7 +26,6 @@ pipeline {
                    '''
             }
         }
-
         stage('Compile and Build WAR') {
             steps {
                 script {
@@ -45,7 +41,6 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to Tomcat') {
             steps {
                 script {
@@ -58,7 +53,6 @@ pipeline {
                 }
             }
         }
-
         stage('Restart Tomcat') {
             steps {
                 script {
@@ -82,13 +76,12 @@ pipeline {
                 }
             }
         }
-
         stage('Test Deployment') {
             steps {
                 script {
                     // Wait for Tomcat to fully start, then test deployment
                     sleep 120  // Wait for Tomcat to fully start
-                    sh 'curl http://localhost:8090/try-devops-1.0/'  // Update with your app URL and correct port
+                    sh 'curl http://localhost:8090/try-devops-1.0/'  
                 }
             }
         }
