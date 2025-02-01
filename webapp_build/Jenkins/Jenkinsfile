@@ -19,13 +19,12 @@ pipeline {
             stage('change_dir') {
                 steps {
                 // Changing to the directory, where java code is available
-                  sh '''
-                     cd build-webapp
-                     ls -lrth
-                     '''
+                sh '''
+                    cd build-webapp
+                    ls -lrth
+                   '''
             }
         }
-
         stage('Compile and Build WAR') {
             steps {
                 script {
@@ -36,7 +35,6 @@ pipeline {
                 }
             }
         }
-
         stage('Deploy to Tomcat') {
             steps {
                 script {
@@ -71,7 +69,6 @@ pipeline {
             }
         }
     }
-
     post {
         always {
             // Clean up resources if necessary
@@ -84,4 +81,5 @@ pipeline {
             echo 'Deployment failed. Check the logs.'
         }
     }
+}
 }
