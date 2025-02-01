@@ -15,26 +15,30 @@ pipeline {
                 git 'https://github.com/thangacodes/Java-project.git'  // Replace with your Git repository URL
             }
         }
-        stages {
-            stage('change_dir') {
-                steps {
-                // Changing to the directory, where java code is available
+
+        stage('Change Directory') {
+            steps {
+                // Changing to the directory where java code is available
                 sh '''
                     cd build-webapp
                     ls -lrth
-                   '''
+                '''
             }
         }
+
         stage('Compile and Build WAR') {
             steps {
                 script {
                     // Run Maven to compile and build the WAR file
-                    cd build-webapp
-                    ls -lrth 
-                    sh 'mvn clean package'
+                    sh '''
+                        cd build-webapp
+                        ls -lrth
+                        mvn clean package
+                    '''
                 }
             }
         }
+
         stage('Deploy to Tomcat') {
             steps {
                 script {
@@ -64,7 +68,7 @@ pipeline {
                 script {
                     // Wait for Tomcat to fully start, then test deployment
                     sleep 15  // Wait for Tomcat to fully start (you can adjust the time)
-                    sh 'curl http://localhost:8080/try-devops-1.0'  // Update with your app URL
+                    sh 'curl http://localhost:8090/try-devops-1.0'  // Update with your app URL and correct port
                 }
             }
         }
@@ -81,5 +85,4 @@ pipeline {
             echo 'Deployment failed. Check the logs.'
         }
     }
-}
 }
