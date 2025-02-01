@@ -64,9 +64,15 @@ pipeline {
                 script {
                     // Restart Tomcat to deploy the new WAR
                     sh """
-                    sh /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/shutdown.sh
-                    sleep 5  // Wait for Tomcat to shutdown
+                    echo "#############################################"
+                    echo "Going to start Apache tomcat service 
+                    echo "#############################################"
                     sh /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/startup.sh
+                    sleep 200  // Wait for Tomcat to shutdown
+                    echo "#############################################"
+                    echo "Going to stop Apache tomcat service 
+                    echo "#############################################"
+                    sh /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/shutdown.sh
                     """
                 }
             }
