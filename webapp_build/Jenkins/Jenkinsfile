@@ -20,7 +20,7 @@ pipeline {
             steps {
                 // Changing to the directory where java code is available
                 sh '''
-                    cd build-webapp
+                    cd build-webapp/webapp_build
                     ls -lrth
                 '''
             }
@@ -31,7 +31,7 @@ pipeline {
                 script {
                     // Run Maven to compile and build the WAR file
                     sh '''
-                        cd build-webapp
+                        cd build-webapp/webapp_build
                         ls -lrth
                         mvn clean package
                     '''
