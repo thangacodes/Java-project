@@ -3,10 +3,10 @@ pipeline {
 
     environment {
         // Set environment variables
-        TOMCAT_HOME = '/Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98'  // Update with your Tomcat path
-        TOMCAT_DEPLOY_DIR = "${TOMCAT_HOME}/webapps"
+        // TOMCAT_HOME = '/Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98'  // Update with your Tomcat path
+        // TOMCAT_DEPLOY_DIR = "${TOMCAT_HOME}/webapps"
         WAR_FILE_NAME = 'try-devops-1.0.war'  // Update with your WAR file name
-        // cp build-webapp/webapp_build/target/try-devops-1.0.war /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps
+        COPY='cp build-webapp/webapp_build/target/try-devops-1.0.war /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps'
     }
 
     stages {
@@ -52,7 +52,8 @@ pipeline {
                 script {
                     // Copy the WAR file to Tomcat's webapps directory
                     sh """
-                    cp /webapp_build/target/${WAR_FILE_NAME} ${TOMCAT_DEPLOY_DIR}/
+                    ${COPY}
+                    ls -lrth /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps
                     """
                 }
             }
@@ -63,9 +64,9 @@ pipeline {
                 script {
                     // Restart Tomcat to deploy the new WAR
                     sh """
-                    ${TOMCAT_HOME}/bin/shutdown.sh
-                    sleep 5  // Wait for Tomcat to shut down
-                    ${TOMCAT_HOME}/bin/startup.sh
+                    sh /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/shutdown.sh
+                    sleep 5  // Wait for Tomcat to shutdown
+                    sh /Users/murugat/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/bin/startup.sh
                     """
                 }
             }
