@@ -12,7 +12,11 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Checkout the code from the repository
-                git 'https://github.com/thangacodes/Java-project.git'  // Replace with your Git repository URL
+                sh '''
+                   git clone https://github.com/thangacodes/Java-project.git
+                   ls -lrt
+                   pwd
+                   '''
             }
         }
 
