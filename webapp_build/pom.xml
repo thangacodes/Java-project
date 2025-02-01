@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Group and artifact info -->
+  <groupId>xyz.try-devops</groupId>
+  <artifactId>try-devops</artifactId>
+  <packaging>war</packaging> <!-- Change from jar to war for web application -->
+  <version>1.0</version>
+  <name>try-devops</name>
+  <url>http://maven.apache.org</url>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- JUnit for tests -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- Servlet API for Tomcat compatibility -->
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version> <!-- Match version of Tomcat you're using -->
+      <scope>provided</scope> <!-- Provided by Tomcat, don't package it -->
+    </dependency>
+  </dependencies>
+
+  <!-- Build section to package as WAR -->
+  <build>
+    <plugins>
+      <!-- Maven WAR Plugin for web applications -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <webResources>
+            <!-- This section handles the web application resources (like web.xml) -->
+            <resource>
+              <directory>src/main/webapp</directory>
+              <filtering>true</filtering>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
