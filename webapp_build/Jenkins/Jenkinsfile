@@ -37,7 +37,8 @@ pipeline {
                     sh '''
                         cd webapp_build
                         ls -lrth
-                        mvn clean package
+                        echo "Going to perform maven compilation.."
+                        /opt/homebrew/Cellar/maven/3.9.9/libexec clean package
                     '''
                 }
             }
