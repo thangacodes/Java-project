@@ -3,7 +3,7 @@ pipeline {
     environment {
         // Set environment variables
         TOMCAT_PATH="/Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps"
-        COPY='cp /Users/${DIR}/.jenkins/workspace/build-webapp/webapp_build/target/try-devops-1.0.war /Users/${DIR}/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps'
+        COPY='cp /Users/td/.jenkins/workspace/build-webapp/webapp_build/target/try-devops-1.0.war /Users/td/Desktop/hcv/azure_devops/apache-tomcat-9.0.98/webapps'
     }
     stages {
         stage('Checkout') {
