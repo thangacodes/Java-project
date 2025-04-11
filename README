@@ -1,8 +1,10 @@
-It is a project where I document the step-by-step process of making a dockerized image for java applications.
+```bash
 
-Below are useful Java compile commands:
+It is a project where I document the step-by-step process of creating a Dockerized image for Java applications.
 
-a) This Java program defines a simple class named HelloWorld that prints "Hello World!" to the console when executed
+Below are some useful Java compile commands:
+
+a) This Java program defines a simple class named HelloWorld that prints "Hello, World!" to the console when executed.
 
 # vi HelloWorld.java
 
@@ -33,10 +35,9 @@ e) Check if everything works correctly, type
 # java -jar HelloWorld.jar
 Hello World!
 
-Please note, In order to copy a file from a container to the host, you can use the command
+Please note: in order to copy a file from a container to the host, you can use the following command
 
 # docker cp <containerId>:/file/path/within/container /host/path/target
-
 # docker 7ee:/usr/local/tomcat/SampleWebApp/index.html /home/ubuntu
 
 
